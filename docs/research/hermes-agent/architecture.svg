@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1500" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="bgInteract" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef3c7"/><stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+    <linearGradient id="bgOrch" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dbeafe"/><stop offset="100%" stop-color="#bfdbfe"/>
+    </linearGradient>
+    <linearGradient id="bgProv" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e0e7ff"/><stop offset="100%" stop-color="#c7d2fe"/>
+    </linearGradient>
+    <linearGradient id="bgCap" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dcfce7"/><stop offset="100%" stop-color="#bbf7d0"/>
+    </linearGradient>
+    <linearGradient id="bgExec" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fee2e2"/><stop offset="100%" stop-color="#fecaca"/>
+    </linearGradient>
+    <linearGradient id="bgPers" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f3e8ff"/><stop offset="100%" stop-color="#e9d5ff"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+    </marker>
+    <style>
+      .layer-title { font-size: 18px; font-weight: 700; fill: #0f172a; }
+      .box-title { font-size: 14px; font-weight: 600; fill: #0f172a; }
+      .box-body  { font-size: 11px; fill: #334155; }
+      .small     { font-size: 10px; fill: #475569; }
+      .tag       { font-size: 10px; font-weight: 600; fill: #fff; }
+      .flow-label { font-size: 11px; font-weight: 600; fill: #475569; }
+      .header    { font-size: 26px; font-weight: 800; fill: #0f172a; }
+      .sub       { font-size: 13px; fill: #475569; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="700" y="40" text-anchor="middle" class="header">Hermes Agent · 技术架构总览</text>
+  <text x="700" y="62" text-anchor="middle" class="sub">NousResearch/hermes-agent v0.13.0 — 自托管 · 多平台 · 自演进的 AI Agent</text>
+
+  <!-- =========== Interaction Layer =========== -->
+  <rect x="40" y="90" width="1320" height="150" rx="14" fill="url(#bgInteract)" stroke="#b45309" stroke-width="1.5"/>
+  <text x="60" y="115" class="layer-title">① Interaction Layer · 交互入口</text>
+  <text x="60" y="132" class="small">用户/IDE/消息平台的所有入口；唯一暴露给外部世界的层。</text>
+
+  <!-- CLI/TUI -->
+  <rect x="70" y="148" width="380" height="78" rx="8" fill="#fff" stroke="#b45309" stroke-width="1"/>
+  <text x="85" y="170" class="box-title">CLI / TUI</text>
+  <text x="85" y="188" class="box-body">cli.py (14k 行) · ui-tui (React/Ink) · tui_gateway (JSON-RPC)</text>
+  <text x="85" y="204" class="box-body">450+ Slash 命令 · 共享 hermes_cli/commands.py 注册表</text>
+  <text x="85" y="220" class="small">入口: hermes / hermes-agent</text>
+
+  <!-- ACP -->
+  <rect x="475" y="148" width="380" height="78" rx="8" fill="#fff" stroke="#b45309" stroke-width="1"/>
+  <text x="490" y="170" class="box-title">ACP Server</text>
+  <text x="490" y="188" class="box-body">acp_adapter/ · JSON-RPC over stdio</text>
+  <text x="490" y="204" class="box-body">VS Code / Zed 等 IDE 把 Hermes 当一等 Agent 嵌入</text>
+  <text x="490" y="220" class="small">入口: hermes-acp</text>
+
+  <!-- Gateway -->
+  <rect x="880" y="148" width="450" height="78" rx="8" fill="#fff" stroke="#b45309" stroke-width="1"/>
+  <text x="895" y="170" class="box-title">Messaging Gateway</text>
+  <text x="895" y="188" class="box-body">gateway/run.py GatewayRunner · 14+ 平台</text>
+  <text x="895" y="204" class="box-body">Telegram · Discord · Slack · WhatsApp · Signal · 飞书 · 钉钉 · 企微 · Matrix · Email · …</text>
+  <text x="895" y="220" class="small">配对授权 · 跨平台镜像 · 流式增量编辑</text>
+
+  <!-- Down arrows to Orchestration -->
+  <line x1="260"  y1="240" x2="260"  y2="278" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="665"  y1="240" x2="665"  y2="278" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="1100" y1="240" x2="1100" y2="278" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- =========== Orchestration Layer =========== -->
+  <rect x="40" y="280" width="1320" height="180" rx="14" fill="url(#bgOrch)" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="60" y="305" class="layer-title">② Orchestration Layer · 编排核心</text>
+  <text x="60" y="322" class="small">单体 AIAgent 类驱动回合循环；可插拔 Context Engine 控制压缩；Trajectory 记录训练数据。</text>
+
+  <!-- AIAgent (big center) -->
+  <rect x="380" y="340" width="640" height="105" rx="10" fill="#fff" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="700" y="365" text-anchor="middle" class="box-title">AIAgent  (run_agent.py · 16,360 行)</text>
+  <text x="700" y="385" text-anchor="middle" class="box-body">主循环 12526–15285 · 三层 System Prompt (6041–6266) · 工具调度 10860</text>
+  <text x="700" y="402" text-anchor="middle" class="box-body">流式 8045 / 非流式 7727 · error_classifier 9267 · 凭证池轮换 · fallback chain</text>
+  <text x="700" y="420" text-anchor="middle" class="box-body">回合后: 外部记忆同步 · memory/skill nudge · 后台 Curator fork</text>
+  <rect x="395" y="430" width="78" height="14" rx="4" fill="#1d4ed8"/>
+  <text x="434" y="441" text-anchor="middle" class="tag">单体核心</text>
+
+  <!-- Context Engine -->
+  <rect x="70" y="340" width="290" height="105" rx="10" fill="#fff" stroke="#1d4ed8" stroke-width="1"/>
+  <text x="85" y="362" class="box-title">Context Engine (可插拔)</text>
+  <text x="85" y="380" class="box-body">agent/context_engine.py 抽象基类</text>
+  <text x="85" y="396" class="box-body">默认: ContextCompressor (摘要)</text>
+  <text x="85" y="412" class="box-body">阈值 75% · 头尾保护 3/6 · 滚动 session_id</text>
+  <text x="85" y="430" class="small">配置: context.engine (compressor / lcm / …)</text>
+
+  <!-- Trajectory + IterationBudget -->
+  <rect x="1040" y="340" width="290" height="105" rx="10" fill="#fff" stroke="#1d4ed8" stroke-width="1"/>
+  <text x="1055" y="362" class="box-title">Trajectory · IterationBudget</text>
+  <text x="1055" y="380" class="box-body">agent/trajectory.py · ShareGPT JSONL</text>
+  <text x="1055" y="396" class="box-body">每回合保存 · 训练下一代工具模型</text>
+  <text x="1055" y="412" class="box-body">IterationBudget · 中断检测 · /steer</text>
+  <text x="1055" y="430" class="small">trajectory_compressor.py 还可压缩训练样本</text>
+
+  <!-- arrows: ctx_engine <-> AIAgent <-> trajectory -->
+  <line x1="360" y1="392" x2="380" y2="392" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+  <line x1="1020" y1="392" x2="1040" y2="392" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+
+  <!-- Down arrows to Provider + Capability -->
+  <line x1="500" y1="460" x2="500" y2="498" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="510" y="482" class="flow-label">LLM 调用</text>
+  <line x1="900" y1="460" x2="900" y2="498" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="910" y="482" class="flow-label" fill="#16a34a">工具调用</text>
+
+  <!-- =========== Provider + Capability (side-by-side) =========== -->
+  <!-- Provider Layer -->
+  <rect x="40" y="500" width="660" height="270" rx="14" fill="url(#bgProv)" stroke="#4338ca" stroke-width="1.5"/>
+  <text x="60" y="525" class="layer-title">③ Provider Layer · 模型抽象</text>
+  <text x="60" y="542" class="small">把 100+ 模型/厂家归一化；凭证池 + 故障切换。</text>
+
+  <rect x="60" y="555" width="300" height="98" rx="8" fill="#fff" stroke="#4338ca"/>
+  <text x="75" y="577" class="box-title">Provider DB</text>
+  <text x="75" y="594" class="box-body">hermes_cli/providers.py</text>
+  <text x="75" y="610" class="box-body">Layer 1: models.dev 目录 (~500 模型)</text>
+  <text x="75" y="626" class="box-body">Layer 2: Hermes overlay</text>
+  <text x="75" y="644" class="small">transport · auth · aggregator</text>
+
+  <rect x="375" y="555" width="305" height="98" rx="8" fill="#fff" stroke="#4338ca"/>
+  <text x="390" y="577" class="box-title">Per-Provider Adapters</text>
+  <text x="390" y="594" class="box-body">agent/anthropic_adapter.py (522 行)</text>
+  <text x="390" y="610" class="box-body">codex_responses / gemini_native / cloudcode</text>
+  <text x="390" y="626" class="box-body">bedrock / moonshot / google_code_assist</text>
+  <text x="390" y="644" class="small">统一消息 / 工具 / reasoning / auth 头格式</text>
+
+  <rect x="60" y="665" width="300" height="95" rx="8" fill="#fff" stroke="#4338ca"/>
+  <text x="75" y="687" class="box-title">Credential Pool</text>
+  <text x="75" y="704" class="box-body">agent/credential_pool.py · auth.json</text>
+  <text x="75" y="720" class="box-body">来源: env / claude_code / hermes_pkce</text>
+  <text x="75" y="736" class="box-body">          device_code / qwen-cli / gh_cli / …</text>
+  <text x="75" y="752" class="small">策略: fill_first · round_robin · random · least_used</text>
+
+  <rect x="375" y="665" width="305" height="95" rx="8" fill="#fff" stroke="#4338ca"/>
+  <text x="390" y="687" class="box-title">Failover Chain</text>
+  <text x="390" y="704" class="box-body">error_classifier 分类后:</text>
+  <text x="390" y="720" class="box-body">401 → 凭证轮换 (5min 冷却)</text>
+  <text x="390" y="736" class="box-body">429/402 → 退避 / 切 provider (1h 冷却)</text>
+  <text x="390" y="752" class="small">context-window → 触发压缩重试</text>
+
+  <!-- Capability Layer -->
+  <rect x="720" y="500" width="640" height="270" rx="14" fill="url(#bgCap)" stroke="#15803d" stroke-width="1.5"/>
+  <text x="740" y="525" class="layer-title">④ Capability Layer · 能力体系</text>
+  <text x="740" y="542" class="small">按需挂载的能力；Tool / Skill / Memory / Cron / Subagent 各自独立演进。</text>
+
+  <rect x="740" y="555" width="195" height="98" rx="8" fill="#fff" stroke="#15803d"/>
+  <text x="755" y="577" class="box-title">Tools (50+)</text>
+  <text x="755" y="594" class="box-body">tools/registry.py</text>
+  <text x="755" y="610" class="box-body">AST 预扫 · 按需 import</text>
+  <text x="755" y="626" class="box-body">terminal · file · browser</text>
+  <text x="755" y="642" class="box-body">delegate · memory · todo</text>
+
+  <rect x="945" y="555" width="195" height="98" rx="8" fill="#fff" stroke="#15803d"/>
+  <text x="960" y="577" class="box-title">Skills</text>
+  <text x="960" y="594" class="box-body">SKILL.md · 渐进披露</text>
+  <text x="960" y="610" class="box-body">tier1 元数据 / tier2 正文</text>
+  <text x="960" y="626" class="box-body">tools/skill_manager_tool.py</text>
+  <text x="960" y="642" class="box-body">Skills Hub · 信任分级</text>
+
+  <rect x="1150" y="555" width="200" height="98" rx="8" fill="#fff" stroke="#15803d"/>
+  <text x="1165" y="577" class="box-title">Memory</text>
+  <text x="1165" y="594" class="box-body">MEMORY.md · USER.md</text>
+  <text x="1165" y="610" class="box-body">memory_manager.py</text>
+  <text x="1165" y="626" class="box-body">外部 provider (Honcho)</text>
+  <text x="1165" y="642" class="box-body">FTS5 session_search</text>
+
+  <rect x="740" y="665" width="195" height="95" rx="8" fill="#fff" stroke="#15803d"/>
+  <text x="755" y="687" class="box-title">MCP Bridge</text>
+  <text x="755" y="704" class="box-body">tools/mcp_tool.py</text>
+  <text x="755" y="720" class="box-body">stdio / HTTP / SSE</text>
+  <text x="755" y="736" class="box-body">独立 asyncio loop</text>
+  <text x="755" y="752" class="small">注入扫描 · env 白名单</text>
+
+  <rect x="945" y="665" width="195" height="95" rx="8" fill="#fff" stroke="#15803d"/>
+  <text x="960" y="687" class="box-title">Cron Scheduler</text>
+  <text x="960" y="704" class="box-body">cron/scheduler.py</text>
+  <text x="960" y="720" class="box-body">60s tick · 文件锁</text>
+  <text x="960" y="736" class="box-body">DeliveryRouter 路由</text>
+  <text x="960" y="752" class="small">origin / 平台 / local</text>
+
+  <rect x="1150" y="665" width="200" height="95" rx="8" fill="#fff" stroke="#15803d"/>
+  <text x="1165" y="687" class="box-title">Subagents</text>
+  <text x="1165" y="704" class="box-body">tools/delegate_tool.py</text>
+  <text x="1165" y="720" class="box-body">spawn 子 AIAgent</text>
+  <text x="1165" y="736" class="box-body">toolset 缩水</text>
+  <text x="1165" y="752" class="small">防递归 / 防越权</text>
+
+  <!-- Curator callout (between/below cap layer) -->
+  <rect x="40" y="790" width="1320" height="48" rx="10" fill="#fef9c3" stroke="#a16207" stroke-width="1"/>
+  <text x="60" y="813" class="box-title">↻ 自演进闭环 (Self-Improving Loop)</text>
+  <text x="60" y="830" class="box-body">agent/curator.py · 默认每 7 天 + 闲置 2h 触发 · fork 独立 AIAgent · 合并/归档 agent_created skills · 永不删除 · 状态: ~/.hermes/skills/.curator_state</text>
+
+  <!-- Down arrow from Capability to Execution -->
+  <line x1="700" y1="846" x2="700" y2="888" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <text x="710" y="872" class="flow-label" fill="#dc2626">命令执行 (含审批门控)</text>
+
+  <!-- =========== Execution Layer =========== -->
+  <rect x="40" y="890" width="1320" height="180" rx="14" fill="url(#bgExec)" stroke="#b91c1c" stroke-width="1.5"/>
+  <text x="60" y="915" class="layer-title">⑤ Execution Layer · 命令/浏览器后端</text>
+  <text x="60" y="932" class="small">能力下沉到具体执行环境 · 隔离/沙盒/远端运行 · 危险命令必须经审批门控（contextvars）。</text>
+
+  <!-- Terminal backends (7) -->
+  <rect x="60" y="950" width="850" height="105" rx="8" fill="#fff" stroke="#b91c1c"/>
+  <text x="75" y="972" class="box-title">Terminal Backends · 7 种 (TERMINAL_ENV)</text>
+  <g font-size="11" fill="#334155">
+    <rect x="75"  y="985" width="105" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="127.5" y="1005" text-anchor="middle" font-weight="700">local</text>
+    <text x="127.5" y="1023" text-anchor="middle">直接 host</text>
+    <text x="127.5" y="1038" text-anchor="middle" class="small">session 快照</text>
+
+    <rect x="190" y="985" width="105" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="242.5" y="1005" text-anchor="middle" font-weight="700">docker</text>
+    <text x="242.5" y="1023" text-anchor="middle">容器隔离</text>
+
+    <rect x="305" y="985" width="105" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="357.5" y="1005" text-anchor="middle" font-weight="700">ssh</text>
+    <text x="357.5" y="1023" text-anchor="middle">远端</text>
+    <text x="357.5" y="1038" text-anchor="middle" class="small">ControlMaster</text>
+
+    <rect x="420" y="985" width="105" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="472.5" y="1005" text-anchor="middle" font-weight="700">singularity</text>
+    <text x="472.5" y="1023" text-anchor="middle">Apptainer</text>
+
+    <rect x="535" y="985" width="105" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="587.5" y="1005" text-anchor="middle" font-weight="700">modal</text>
+    <text x="587.5" y="1023" text-anchor="middle">云沙箱</text>
+    <text x="587.5" y="1038" text-anchor="middle" class="small">serverless</text>
+
+    <rect x="650" y="985" width="105" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="702.5" y="1005" text-anchor="middle" font-weight="700">daytona</text>
+    <text x="702.5" y="1023" text-anchor="middle">IDE 集成</text>
+
+    <rect x="765" y="985" width="135" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="832.5" y="1005" text-anchor="middle" font-weight="700">vercel_sandbox</text>
+    <text x="832.5" y="1023" text-anchor="middle">node24/py3.13</text>
+  </g>
+
+  <!-- Browser backends -->
+  <rect x="930" y="950" width="400" height="105" rx="8" fill="#fff" stroke="#b91c1c"/>
+  <text x="945" y="972" class="box-title">Browser Backends</text>
+  <g font-size="11" fill="#334155">
+    <rect x="945" y="985" width="120" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="1005" y="1005" text-anchor="middle" font-weight="700">Local Chromium</text>
+    <text x="1005" y="1023" text-anchor="middle">CDP / Camofox</text>
+
+    <rect x="1075" y="985" width="115" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="1132.5" y="1005" text-anchor="middle" font-weight="700">Browserbase</text>
+    <text x="1132.5" y="1023" text-anchor="middle">云端无头</text>
+
+    <rect x="1200" y="985" width="115" height="60" rx="6" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="1257.5" y="1005" text-anchor="middle" font-weight="700">Browser Use</text>
+    <text x="1257.5" y="1023" text-anchor="middle">a11y tree</text>
+  </g>
+
+  <!-- Down arrow to Persistence -->
+  <line x1="700" y1="1075" x2="700" y2="1110" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="710" y="1095" class="flow-label">读/写状态</text>
+
+  <!-- =========== Persistence Layer =========== -->
+  <rect x="40" y="1112" width="1320" height="220" rx="14" fill="url(#bgPers)" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="60" y="1137" class="layer-title">⑥ Persistence Layer · 持久化</text>
+  <text x="60" y="1154" class="small">SQLite + FTS5 + WAL fallback · 原子写 (tempfile + os.replace + 文件锁) · chmod 0600 · 永不删除策略。</text>
+
+  <rect x="60"  y="1168" width="295" height="150" rx="8" fill="#fff" stroke="#7c3aed"/>
+  <text x="75" y="1190" class="box-title">SessionDB · SQLite</text>
+  <text x="75" y="1208" class="box-body">hermes_state.py (2966 行) · schema v11</text>
+  <text x="75" y="1224" class="box-body">~/.hermes/sessions.db</text>
+  <text x="75" y="1240" class="box-body">tables: sessions / messages / messages_fts</text>
+  <text x="75" y="1256" class="box-body">字段: tokens/cost/reasoning/codex_*</text>
+  <text x="75" y="1272" class="box-body">parent_session_id 压缩 DAG</text>
+  <text x="75" y="1290" class="box-body">WAL · NFS/SMB/FUSE 回退 DELETE</text>
+  <text x="75" y="1308" class="small">FTS5 给 session_search 工具用</text>
+
+  <rect x="370" y="1168" width="295" height="150" rx="8" fill="#fff" stroke="#7c3aed"/>
+  <text x="385" y="1190" class="box-title">~/.hermes/skills/</text>
+  <text x="385" y="1208" class="box-body">bundled (仓库同步) + user-local</text>
+  <text x="385" y="1224" class="box-body">.bundled_manifest (hash 防覆盖)</text>
+  <text x="385" y="1240" class="box-body">.usage.json (lifecycle telemetry)</text>
+  <text x="385" y="1256" class="box-body">.curator_state (run_count, paused)</text>
+  <text x="385" y="1272" class="box-body">.hub/ (lock.json · quarantine · audit)</text>
+  <text x="385" y="1290" class="box-body">.archive/ (归档不删)</text>
+  <text x="385" y="1308" class="small">来源 trust_level: builtin/trusted/community</text>
+
+  <rect x="680" y="1168" width="295" height="150" rx="8" fill="#fff" stroke="#7c3aed"/>
+  <text x="695" y="1190" class="box-title">Credentials</text>
+  <text x="695" y="1208" class="box-body">~/.hermes/auth.json (PooledCredential)</text>
+  <text x="695" y="1224" class="box-body">~/.hermes/.env (load_hermes_dotenv)</text>
+  <text x="695" y="1240" class="box-body">~/.hermes/.anthropic_oauth.json</text>
+  <text x="695" y="1256" class="box-body">~/.claude/.credentials.json (claude_code)</text>
+  <text x="695" y="1272" class="box-body">~/.qwen/oauth_creds.json (qwen-cli)</text>
+  <text x="695" y="1290" class="box-body">chmod 0600 · 错误信息剥离凭证</text>
+  <text x="695" y="1308" class="small">RemovalStep 注册表 · 真正擦除</text>
+
+  <rect x="990" y="1168" width="345" height="150" rx="8" fill="#fff" stroke="#7c3aed"/>
+  <text x="1005" y="1190" class="box-title">Cron / Pairing / Logs</text>
+  <text x="1005" y="1208" class="box-body">~/.hermes/cron/jobs.json + output/</text>
+  <text x="1005" y="1224" class="box-body">~/.hermes/cron/.tick.lock</text>
+  <text x="1005" y="1240" class="box-body">~/.hermes/pairing/&lt;platform&gt;-pending.json</text>
+  <text x="1005" y="1256" class="box-body">~/.hermes/pairing/&lt;platform&gt;-approved.json</text>
+  <text x="1005" y="1272" class="box-body">~/.hermes/pairing/_rate_limits.json</text>
+  <text x="1005" y="1290" class="box-body">~/.hermes/logs/mcp-stderr.log</text>
+  <text x="1005" y="1308" class="small">8 字符无歧义配对码 · 1h TTL · 5 次失败锁 1h</text>
+
+  <!-- Footer legend -->
+  <rect x="40" y="1352" width="1320" height="130" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="60" y="1376" class="layer-title">数据流图例</text>
+  <line x1="60"  y1="1397" x2="120" y2="1397" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="130" y="1401" class="box-body">普通调用 / 数据流</text>
+
+  <line x1="290" y1="1397" x2="350" y2="1397" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="360" y="1401" class="box-body">工具调用 (含 MCP / subagent)</text>
+
+  <line x1="580" y1="1397" x2="640" y2="1397" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <text x="650" y="1401" class="box-body">命令执行（审批门控）</text>
+
+  <text x="60"  y="1430" class="small">▸ 三层 System Prompt = stable (SOUL/Skills/env) + context (AGENTS.md) + volatile (timestamp/memory)，首回合构造、整会话复用以最大化 prefix cache。</text>
+  <text x="60"  y="1448" class="small">▸ Curator 是真正的"反思阶段"实现：后台 fork 的独立 AIAgent，每 7 天闲置 ≥2h 时合并 agent_created skills。永不删除：归档而非 rm，可恢复。</text>
+  <text x="60"  y="1466" class="small">▸ 网关 Streaming: 1.5s 节流增量 editMessage / Telegram draft；"fresh final" 模式在 preview 过久时改发新消息。</text>
+</svg>

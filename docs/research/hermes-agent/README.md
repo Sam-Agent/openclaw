@@ -13,6 +13,8 @@
 |------|------|
 | [code-analysis.md](./code-analysis.md) | 代码分析：源码组织、关键模块、核心类与函数的实现细节，附文件:行号引用 |
 | [technical-architecture.md](./technical-architecture.md) | 技术架构：分层模型、运行时数据流、子系统协作关系、扩展点 |
+| [architecture.svg](./architecture.svg) | 架构总览图：六层结构（Interaction / Orchestration / Provider / Capability / Execution / Persistence） |
+| [dataflow.svg](./dataflow.svg) | 数据流图：CLI 单回合 + 网关单回合 + cron 定时任务三条主路径 |
 
 ## 研究方法
 

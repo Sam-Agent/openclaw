@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1100" font-family="-apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3aed"/>
+    </marker>
+    <style>
+      .h    { font-size: 24px; font-weight: 800; fill: #0f172a; }
+      .sec  { font-size: 17px; font-weight: 700; fill: #0f172a; }
+      .lbl  { font-size: 13px; font-weight: 600; fill: #0f172a; }
+      .body { font-size: 11px; fill: #334155; }
+      .small{ font-size: 10px; fill: #64748b; }
+      .step { font-size: 12px; font-weight: 700; fill: #fff; }
+    </style>
+  </defs>
+
+  <text x="700" y="36" text-anchor="middle" class="h">Hermes Agent · 单回合执行数据流</text>
+  <text x="700" y="58" text-anchor="middle" class="body">用户消息 → 三层 Prompt 构造 → LLM 调用 → 工具循环 → 持久化 → 后回合异步动作</text>
+
+  <!-- ============== CLI Turn (top half) ============== -->
+  <rect x="20" y="80" width="1360" height="470" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6 4"/>
+  <text x="40" y="108" class="sec">A · CLI 单回合 (TUI / hermes 命令行)</text>
+
+  <!-- User -->
+  <rect x="40" y="125" width="120" height="50" rx="8" fill="#0f172a"/>
+  <text x="100" y="148" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">User Input</text>
+  <text x="100" y="165" text-anchor="middle" font-size="10" fill="#cbd5e1">cli.process_command</text>
+
+  <!-- /command? decision -->
+  <polygon points="220,150 290,115 360,150 290,185" fill="#fde68a" stroke="#b45309"/>
+  <text x="290" y="148" text-anchor="middle" class="lbl">/slash?</text>
+  <text x="290" y="164" text-anchor="middle" class="small">前缀消歧</text>
+
+  <line x1="160" y1="150" x2="220" y2="150" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- yes: command dispatch -->
+  <rect x="280" y="210" width="240" height="62" rx="8" fill="#fff7ed" stroke="#ea580c"/>
+  <text x="400" y="232" text-anchor="middle" class="lbl">命令分发</text>
+  <text x="400" y="248" text-anchor="middle" class="body">hermes_cli/commands.py · 450+ 命令</text>
+  <text x="400" y="262" text-anchor="middle" class="body">450+ handler (model/config/retry/…)</text>
+  <line x1="290" y1="185" x2="290" y2="210" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="240" y="200" class="small" fill="#ea580c">是</text>
+
+  <!-- no: AIAgent -->
+  <line x1="360" y1="150" x2="430" y2="150" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="380" y="142" class="small">否</text>
+
+  <rect x="430" y="120" width="280" height="60" rx="10" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="570" y="142" text-anchor="middle" class="lbl">AIAgent.run_conversation()</text>
+  <text x="570" y="159" text-anchor="middle" class="body">run_agent.py:12111 起</text>
+  <text x="570" y="172" text-anchor="middle" class="small">追加 user 消息 · 重置重试 · IterationBudget</text>
+
+  <!-- step 1: prompt 三层 -->
+  <rect x="40" y="290" width="240" height="120" rx="8" fill="#fff" stroke="#1d4ed8"/>
+  <circle cx="58" cy="305" r="12" fill="#1d4ed8"/>
+  <text x="58" y="309" text-anchor="middle" class="step">1</text>
+  <text x="80" y="309" class="lbl">三层 System Prompt</text>
+  <text x="55" y="328" class="body">_build_system_prompt 6041</text>
+  <text x="55" y="345" class="body">stable: SOUL/Skills/env</text>
+  <text x="55" y="362" class="body">context: AGENTS.md / .cursorrules</text>
+  <text x="55" y="379" class="body">volatile: timestamp/memory</text>
+  <text x="55" y="396" class="small" fill="#64748b">缓存为 _cached_system_prompt</text>
+
+  <!-- step 2 preflight -->
+  <rect x="300" y="290" width="220" height="120" rx="8" fill="#fff" stroke="#1d4ed8"/>
+  <circle cx="318" cy="305" r="12" fill="#1d4ed8"/>
+  <text x="318" y="309" text-anchor="middle" class="step">2</text>
+  <text x="340" y="309" class="lbl">Preflight 压缩</text>
+  <text x="315" y="328" class="body">估算 token</text>
+  <text x="315" y="345" class="body">超阈值 75% →</text>
+  <text x="315" y="362" class="body">ContextCompressor.compress()</text>
+  <text x="315" y="379" class="body">最多 3 轮迭代</text>
+  <text x="315" y="396" class="small">滚动 session_id</text>
+
+  <!-- step 3 provider -->
+  <rect x="540" y="290" width="220" height="120" rx="8" fill="#fff" stroke="#1d4ed8"/>
+  <circle cx="558" cy="305" r="12" fill="#1d4ed8"/>
+  <text x="558" y="309" text-anchor="middle" class="step">3</text>
+  <text x="580" y="309" class="lbl">Provider + 凭证</text>
+  <text x="555" y="328" class="body">查凭证池 (策略)</text>
+  <text x="555" y="345" class="body">Adapter 转换消息格式</text>
+  <text x="555" y="362" class="body">应用 cache_control 标记</text>
+  <text x="555" y="379" class="body">标准化空白 → prefix 命中</text>
+  <text x="555" y="396" class="small">12772-12803</text>
+
+  <!-- step 4 LLM -->
+  <rect x="780" y="290" width="220" height="120" rx="8" fill="#fff" stroke="#1d4ed8"/>
+  <circle cx="798" cy="305" r="12" fill="#1d4ed8"/>
+  <text x="798" y="309" text-anchor="middle" class="step">4</text>
+  <text x="820" y="309" class="lbl">LLM API 调用</text>
+  <text x="795" y="328" class="body">流式 8045 / 非流式 7727</text>
+  <text x="795" y="345" class="body">Worker 线程包裹</text>
+  <text x="795" y="362" class="body">90s stale 检测</text>
+  <text x="795" y="379" class="body">Ctrl-C 中断</text>
+  <text x="795" y="396" class="small">stream_delta_callback 流回 TUI</text>
+
+  <!-- step 5 classify -->
+  <rect x="1020" y="290" width="340" height="120" rx="8" fill="#fff" stroke="#dc2626"/>
+  <circle cx="1038" cy="305" r="12" fill="#dc2626"/>
+  <text x="1038" y="309" text-anchor="middle" class="step">5</text>
+  <text x="1060" y="309" class="lbl">Error Classifier (9267)</text>
+  <text x="1035" y="328" class="body">429/速率 → jittered_backoff</text>
+  <text x="1035" y="345" class="body">401 → 凭证池轮换 (冷却 5min)</text>
+  <text x="1035" y="362" class="body">context-window 4xx → 触发压缩重试</text>
+  <text x="1035" y="379" class="body">quota → fallback provider chain</text>
+  <text x="1035" y="396" class="small" fill="#dc2626">所有失败都归类后路由</text>
+
+  <!-- arrows step1→4 -->
+  <line x1="570" y1="180" x2="160" y2="290" stroke="#2563eb" stroke-width="2" marker-end="url(#arB)"/>
+  <line x1="280" y1="350" x2="300" y2="350" stroke="#2563eb" stroke-width="2" marker-end="url(#arB)"/>
+  <line x1="520" y1="350" x2="540" y2="350" stroke="#2563eb" stroke-width="2" marker-end="url(#arB)"/>
+  <line x1="760" y1="350" x2="780" y2="350" stroke="#2563eb" stroke-width="2" marker-end="url(#arB)"/>
+  <line x1="1000" y1="350" x2="1020" y2="350" stroke="#2563eb" stroke-width="2" marker-end="url(#arB)"/>
+
+  <!-- step 6 tool calls -->
+  <polygon points="690,430 870,430 870,492 690,492" fill="#fde68a" stroke="#b45309"/>
+  <text x="780" y="455" text-anchor="middle" class="lbl">响应含 tool_calls?</text>
+  <text x="780" y="475" text-anchor="middle" class="body">解析 message.content / tool_calls</text>
+
+  <line x1="890" y1="350" x2="890" y2="461" stroke="#475569" stroke-width="2"/>
+  <line x1="890" y1="461" x2="870" y2="461" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- yes: tool dispatch -->
+  <rect x="40" y="430" width="600" height="62" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="55" y="452" class="lbl">⑥ _execute_tool_calls (10860) · 并发 (read-only/路径独立) 或 串行</text>
+  <text x="55" y="470" class="body">_invoke_tool 内置短路 (todo/memory/clarify/delegate) · registry.dispatch (mcp 等) · 危险命令 → 审批门控</text>
+  <text x="55" y="485" class="body">memory 写 → 通知外部 provider · skill_manage → 原子写 + provenance · terminal → 选 backend 执行</text>
+  <line x1="690" y1="461" x2="640" y2="461" stroke="#16a34a" stroke-width="2" marker-end="url(#arG)"/>
+  <text x="660" y="455" class="small" fill="#16a34a">是</text>
+
+  <!-- loop back -->
+  <path d="M 340 492 Q 340 522 380 522 L 530 522 Q 570 522 570 472 L 570 410 Q 570 380 600 380 L 760 380" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arG)"/>
+  <text x="380" y="540" class="small" fill="#16a34a">tool result 追加为 tool message → 继续主回合循环</text>
+
+  <!-- no: final -->
+  <line x1="780" y1="492" x2="780" y2="520" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="788" y="510" class="small">否</text>
+
+  <rect x="660" y="520" width="700" height="28" rx="8" fill="#0f172a"/>
+  <text x="675" y="540" font-size="13" font-weight="700" fill="#fff">⑦ 流式 final → TUI 渲染 → trajectory.save_trajectory() → 检查 memory/skill nudge → (可能) 后台 Curator fork</text>
+
+  <!-- ============== Gateway turn ============== -->
+  <rect x="20" y="570" width="1360" height="510" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6 4"/>
+  <text x="40" y="598" class="sec">B · 消息网关单回合 (Telegram / Discord / Slack / …)</text>
+
+  <!-- Inbound -->
+  <rect x="40" y="615" width="160" height="56" rx="8" fill="#0f172a"/>
+  <text x="120" y="638" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Inbound Event</text>
+  <text x="120" y="655" text-anchor="middle" class="small" fill="#cbd5e1">platform adapter</text>
+
+  <!-- pairing check -->
+  <polygon points="240,643 320,615 400,643 320,671" fill="#fde68a" stroke="#b45309"/>
+  <text x="320" y="641" text-anchor="middle" class="lbl">user 已批准?</text>
+  <text x="320" y="657" text-anchor="middle" class="small">approved 列表</text>
+  <line x1="200" y1="643" x2="240" y2="643" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- no: pairing flow -->
+  <rect x="40" y="700" width="300" height="62" rx="8" fill="#fef9c3" stroke="#a16207"/>
+  <text x="55" y="722" class="lbl">PairingStore.generate_code()</text>
+  <text x="55" y="740" class="body">8 字符无歧义码 · 1h TTL · 10min 速率限制</text>
+  <text x="55" y="755" class="small">owner: hermes pair approve &lt;platform&gt; &lt;code&gt;</text>
+  <line x1="280" y1="671" x2="200" y2="700" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="220" y="690" class="small">否</text>
+
+  <!-- yes: gateway dispatch -->
+  <rect x="430" y="615" width="320" height="56" rx="10" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+  <text x="445" y="635" class="lbl">GatewayRunner.dispatch (run.py:1175)</text>
+  <text x="445" y="652" class="body">构造 SessionSource · 加载 SQLite session</text>
+  <text x="445" y="666" class="body">fire hook session:start · enqueue ThreadPool</text>
+  <line x1="400" y1="643" x2="430" y2="643" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="410" y="635" class="small">是</text>
+
+  <!-- AIAgent (same as A) -->
+  <rect x="790" y="615" width="320" height="56" rx="10" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="950" y="638" text-anchor="middle" class="lbl">AIAgent.run_conversation()</text>
+  <text x="950" y="655" text-anchor="middle" class="body">与 A 流程相同 (步骤 ①–⑦)</text>
+  <line x1="750" y1="643" x2="790" y2="643" stroke="#475569" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- streaming -->
+  <rect x="1150" y="615" width="210" height="56" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="1255" y="638" text-anchor="middle" class="lbl">GatewayStreamConsumer</text>
+  <text x="1255" y="655" text-anchor="middle" class="body">1.5s 节流 editMessage</text>
+  <line x1="1110" y1="643" x2="1150" y2="643" stroke="#16a34a" stroke-width="2" marker-end="url(#arG)"/>
+  <text x="1115" y="635" class="small" fill="#16a34a">token 流</text>
+
+  <!-- workflow under AIAgent -->
+  <rect x="40" y="780" width="640" height="135" rx="10" fill="#fff" stroke="#475569"/>
+  <text x="55" y="803" class="lbl">回合中触发的特殊路径</text>
+  <text x="55" y="822" class="body">▸ send_message tool → DeliveryRouter → 跨平台投递 → mirror_to_session</text>
+  <text x="55" y="840" class="body">▸ 危险命令 → 异步审批队列 · 按钮 UI / /approve · /always · /cancel 文本回退</text>
+  <text x="55" y="858" class="body">▸ MCP 工具 → 独立 asyncio loop (daemon thread)</text>
+  <text x="55" y="876" class="body">▸ delegate_task → spawn 子 AIAgent (toolset 缩水：禁 delegate/memory/clarify/send_message)</text>
+  <text x="55" y="894" class="body">▸ voice memo → tools/transcription_tools.py (Whisper) → 文本回写 session transcript</text>
+
+  <!-- persistence -->
+  <rect x="710" y="780" width="650" height="135" rx="10" fill="#f3e8ff" stroke="#7c3aed"/>
+  <text x="725" y="803" class="lbl">持久化 (并发安全 · 原子写)</text>
+  <text x="725" y="822" class="body">▸ SessionDB SQLite v11 · WAL · FTS5 · parent_session_id DAG</text>
+  <text x="725" y="840" class="body">▸ transcript JSONL · 每条消息 token/cost/reasoning/finish_reason</text>
+  <text x="725" y="858" class="body">▸ mirror 记录写入接收侧 session ("此消息已于 14:05 投递到 Telegram")</text>
+  <text x="725" y="876" class="body">▸ hook session:end · 持久化 token/cost 统计</text>
+  <text x="725" y="894" class="body">▸ trajectory_samples.jsonl / failed_trajectories.jsonl</text>
+
+  <line x1="950" y1="671" x2="950" y2="780" stroke="#7c3aed" stroke-width="2" marker-end="url(#arP)"/>
+
+  <!-- cron path -->
+  <rect x="40" y="945" width="1320" height="115" rx="10" fill="#fff" stroke="#475569"/>
+  <text x="55" y="968" class="sec" font-size="15">C · 定时任务路径 (cron)</text>
+  <text x="55" y="990" class="body">cron/scheduler.tick() · 60s 心跳 · 文件锁 ~/.hermes/cron/.tick.lock 防并发</text>
+  <text x="55" y="1008" class="body">扫 ~/.hermes/cron/jobs.json → 到期 job → ThreadPool spawn AIAgent (使用 job 自带 enabled_toolsets · 无 user 消息直接拼 prompt)</text>
+  <text x="55" y="1026" class="body">完成 → DeliveryRouter → "origin" 写回创建会话 · "telegram:&lt;chat&gt;" 平台 send · "telegram" 读 TELEGRAM_HOME_CHANNEL · "local" 落 ~/.hermes/cron/output/</text>
+  <text x="55" y="1044" class="body">输出 &gt;4000 字符按平台截断 + 附本地完整文件链接 · 高危 toolset (moa/homeassistant/rl) 对未配置平台默认禁用</text>
+</svg>
